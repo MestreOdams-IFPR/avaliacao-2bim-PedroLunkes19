@@ -4,11 +4,14 @@ public class ordemJedi {
     
     final static Scanner sc = new Scanner(System.in);
     public static void main(String[] args) {
-        int n;
-        int x;
-        int cont = 1;
         // int qtdAceitos;
-        int[] vet;
+        // int[] vet;
+        // int n;
+
+        int x;
+        int y;
+        int[] pos;
+        int cont = 0;
         
         // while(sc.hasNext()){
         //     n = sc.nextInt();
@@ -23,40 +26,68 @@ public class ordemJedi {
         // }
 
         
-        while(true){
-            n = sc.nextInt();
+        while (true) {
             x = sc.nextInt();
-            vet = new int[n];
-            if(x == 0 && n == 0){
+            y = sc.nextInt();
+
+            if (x == 0 && y == 0) {
                 break;
             }
 
-            for (int i = 0; i < n; i++) {
-                vet[i] = sc.nextInt();
-            }
+            int[] cristais = new int[x];
+            int[] buscas = new int[y];
+            pos = new int[y];
 
-            mergeSort(vet, 0, vet.length-1);
+            lerVet(cristais);
+            lerVet(buscas);
+            pos = encontrarCristais(cristais, buscas, pos);
 
-            for (int i = 0; i < x; i++) {
-                System.out.println("CASE# " + cont + ":");
-                System.out.println(encontrarCristais(vet, x));
-            }
-            
+            cont++;
+            imprimirCasos(pos, buscas, cont);
         }
         
 
     }
 
+    public static void imprimirCasos(int[] pos, int[] perguntas, int cont){
 
-    public static String encontrarCristais(int[] vet , int x){
-        for (int i = 0; i < vet.length; i++) {
-            if(vet[i] == x){
-                return (x + " found at " + (i+1));
+        System.out.println("CASE# " + (cont) + ':');
+        for (int i = 0; i < pos.length; i++) {
+            if(pos[i] == 0){
+                System.out.println(perguntas[i] + " not found");
+            }else{
+                System.out.println(perguntas[i] + " found at " + pos[i]);
+            }
+           
+        }
+    }
+
+    public static int[] encontrarCristais(int[] cristais, int[] buscas, int[] pos){
+        mergeSort(cristais, 0, cristais.length);
+
+        for (int i = 0; i < buscas.length; i++) {
+            for (int j = 0; j < cristais.length; j++) {
+                if(cristais[j] == buscas[i]){
+                    pos[i] = j+1;
+                    break;
+                }
             }
         }
 
-        return x + " not found";
+        return pos;
+
     }
+
+    
+    
+    public static void lerVet(int[] vet){
+        for (int i = 0; i < vet.length; i++) {
+            vet[i] = sc.nextInt();
+        }
+    }
+
+
+    
 
     public static int calcularForcaMin(int[] vet , int qtdAceitos){
         mergeSort(vet, 0, vet.length);
@@ -69,16 +100,16 @@ public class ordemJedi {
         return minForca;
     }
 
-    public static void mergeSort(int[] vet, int inicio, int fim) {
-        int meio = 0;
+    
 
-        if (inicio < fim-1) {
+    public static void mergeSort(int vet[], int inicio, int fim) {
+        int meio = 0;
+        if (inicio < fim - 1) {
             meio = (inicio + fim) / 2;
             mergeSort(vet, inicio, meio);
-            mergeSort(vet, meio + 1, fim);
+            mergeSort(vet, meio, fim);
             intercalar(vet, inicio, meio, fim);
         }
-
     }
 
     public static void intercalar(int vet[], int inicio, int meio, int fim) {
@@ -91,7 +122,6 @@ public class ordemJedi {
             } else {
                 vetAux[k++] = vet[j++];
             }
-
         }
 
         while (i < meio) {
@@ -100,12 +130,12 @@ public class ordemJedi {
 
         while (j < fim) {
             vetAux[k++] = vet[j++];
+
         }
 
         for (i = inicio; i < fim; i++) {
             vet[i] = vetAux[i - inicio];
-           }
+        }
     }
-
 }
 
