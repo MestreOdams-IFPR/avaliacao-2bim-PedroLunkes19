@@ -7,17 +7,16 @@ public class Main {
     public static void criarSentencaDancante(String frase) {
         char[] fraseVet = frase.toCharArray();
 
-        if(fraseVet.length > 1){
+        if (fraseVet.length > 1) {
             for (int i = 1; i < frase.length(); i++) {
                 if (fraseVet[i] != ' ' && !Character.isUpperCase(fraseVet[i - 1])) {
                     fraseVet[i] = Character.toUpperCase(frase.charAt(i));
-    
+
                 }
             }
-        }else{
+        } else {
             fraseVet[0] = Character.toUpperCase(fraseVet[0]);
         }
-        
 
         frase = new String(fraseVet);
         System.out.println(frase);
